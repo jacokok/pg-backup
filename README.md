@@ -15,3 +15,9 @@ Backup your pg db from your front end
 - [ ] Upload backups to s3
 - [ ] Run jobs on schedule
 - [x] Run jobs out of process
+
+## Temp commands
+
+docker run -it --rm postgres pg_dump --version
+docker run -it --rm postgres pg_dump dbname -U username -h localhost -F c > backup
+docker run -it --rm postgres pg_restore -h localhost -p 5432 -U username -d test -v backup
