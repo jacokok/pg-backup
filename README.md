@@ -13,4 +13,5 @@ Backup your pg db from your front end
   - [ ] Download backup locally
 - [ ] pgdump or something to make db backup
 - [ ] Upload backups to s3
-- [ ] Run backups on schedule
+- [ ] Run jobs on schedule
+- [x] Run jobs out of process
