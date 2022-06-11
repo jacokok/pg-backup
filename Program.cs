@@ -17,6 +17,7 @@ Log.Information("Starting up");
 
 try
 {
+    Directory.CreateDirectory("backup");
     builder.Services.AddFastEndpoints();
     builder.Services.AddSwaggerDoc();
     builder.Services.Configure<DBConfig>(builder.Configuration.GetSection("DBConfig"));
@@ -26,9 +27,10 @@ try
         {
             q.UseMicrosoftDependencyInjectionJobFactory();
 
+            q.AddJob<BackupJob>(j => j.WithIdentity("Backup").StoreDurably());
             q.AddJob<TestJob>(j => j.WithIdentity("Test").StoreDurably());
 
-            q.AddTrigger(t => t.StartNow().ForJob("Test"));
+            // q.AddTrigger(t => t.StartNow().ForJob("Test"));
         });
 
     builder.Services.AddQuartzServer(options =>
