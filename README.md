@@ -16,8 +16,19 @@ Backup your pg db from your front end
 - [ ] Run jobs on schedule
 - [x] Run jobs out of process
 
-## Temp commands
+## Commands
 
-docker run -it --rm postgres pg_dump --version
-docker run -it --rm postgres pg_dump dbname -U username -h localhost -F c > backup
-docker run -it --rm postgres pg_restore -h localhost -p 5432 -U username -d test -v backup
+```bash
+# run in docker/podman
+docker run -it --rm docker.io/postgres /bin/bash
+# set password env var
+export PGPASSWORD=postgres
+# backup db
+pg_dump -h host.containers.internal -U postgres -Fc -v dbname > dump.sql
+# drop db
+dropdb -h host.containers.internal -U postgres -w bak
+# new db
+createdb -h host.containers.internal -U postgres -w bak
+# restore db
+pg_restore -h host.containers.internal -U postgres -d bak -v < dump.sql
+```

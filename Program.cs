@@ -1,5 +1,6 @@
 global using FastEndpoints;
 using FastEndpoints.Swagger;
+using PGBackup;
 using PGBackup.Jobs;
 using Quartz;
 using Serilog;
@@ -18,6 +19,8 @@ try
 {
     builder.Services.AddFastEndpoints();
     builder.Services.AddSwaggerDoc();
+    builder.Services.Configure<DBConfig>(builder.Configuration.GetSection("DBConfig"));
+    builder.Configuration.AddEnvironmentVariables(prefix: "PG_");
 
     builder.Services.AddQuartz(q =>
         {
