@@ -32,3 +32,10 @@ createdb -h host.containers.internal -U postgres -w bak
 # restore db
 pg_restore -h host.containers.internal -U postgres -d bak -v < dump.sql
 ```
+
+## Alias
+
+```bash
+echo -en '#!/bin/bash \ndocker run -it -e PGPASSWORD=postgres --rm docker.io/postgres pg_dump $@' | sudo tee -a /usr/bin/pg_dump
+sudo chmod +x /usr/bin/pg_dump
+```

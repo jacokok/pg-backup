@@ -25,10 +25,9 @@ public class BackupJob : IJob
         var stdErrBuffer = new StringBuilder();
 
         var backupCommand = Cli
-            .Wrap("docker")
+            .Wrap("pg_dump")
             .WithArguments(new[] {
-                "run", "-it", "-e", $"PGPASSWORD={_config.Password}", "--rm", "docker.io/postgres",
-                "pg_dump", "-h", _config.Host, "-p", _config.Port, "-U", _config.Username, "-Fc", "-v", _config.Database
+                "-h", _config.Host, "-p", _config.Port, "-U", _config.Username, "-Fc", "-v", _config.Database
             })
             .WithEnvironmentVariables(env => env
                 .Set("PGPASSWORD", "postgres")
