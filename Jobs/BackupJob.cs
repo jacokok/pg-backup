@@ -38,6 +38,15 @@ public class BackupJob : IJob
 
         var result = await backupCommand.ExecuteAsync();
 
+        if (result.ExitCode == 0)
+        {
+            _logger.LogInformation("It was success");
+        }
+        else
+        {
+            _logger.LogInformation("It was failure");
+        }
+
         _logger.LogInformation("Result: {result}", stdOutBuffer.ToString());
         _logger.LogInformation("Error: {error}", stdErrBuffer.ToString());
         _logger.LogInformation("Time: {RunTime}", result.RunTime);
