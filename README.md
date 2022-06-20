@@ -8,7 +8,7 @@ Backup your pg db from your front end
   - [x] Start backup
   - [ ] Backup status
   - [x] List Backups
-  - [ ] Remove backups
+  - [x] Remove backups
   - [ ] Send to cloud
   - [ ] Download backup locally
 - [ ] pgdump or something to make db backup

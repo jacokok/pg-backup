@@ -1,6 +1,6 @@
 using Quartz;
 
-namespace PGBackup.Features;
+namespace PGBackup.Features.CreateBackup;
 
 public class BackupEndpoint : EndpointWithoutRequest<object>
 {
@@ -13,7 +13,7 @@ public class BackupEndpoint : EndpointWithoutRequest<object>
 
     public override void Configure()
     {
-        Get("/backup");
+        Post("/backup");
         AllowAnonymous();
     }
 

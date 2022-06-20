@@ -12,7 +12,7 @@ public class GetBackups : EndpointWithoutRequest<Response>
     }
     public override void Configure()
     {
-        Get("/backups");
+        Get("/backup");
         AllowAnonymous();
     }
 
