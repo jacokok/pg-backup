@@ -1,8 +1,8 @@
-using Quartz;
+using PGBackup.Helpers;
 
-namespace PGBackup.Features;
+namespace PGBackup.Features.GetBackups;
 
-public class GetBackups : EndpointWithoutRequest<object>
+public class GetBackups : EndpointWithoutRequest<Response>
 {
     private readonly IWebHostEnvironment _host;
 
@@ -20,6 +20,17 @@ public class GetBackups : EndpointWithoutRequest<object>
     {
         string backupPath = Path.Combine(_host.ContentRootPath, "backup");
         string[] filePaths = Directory.GetFiles(backupPath, "*.dump", SearchOption.TopDirectoryOnly);
-        await SendStringAsync(filePaths[0], cancellation: cancellationToken);
+        Response response = new();
+        foreach (string file in filePaths)
+        {
+            response.Files.Add(new FileDetail
+            {
+                Name = Path.GetFileName(file),
+                Path = file,
+                Size = FileHelper.GetFileSize(file)
+            });
+        }
+
+        await SendAsync(response, cancellation: cancellationToken);
     }
 }

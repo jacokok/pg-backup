@@ -5,9 +5,9 @@ Backup your pg db from your front end
 ## Todo
 
 - [ ] Create Web Api
-  - [ ] Start backup
+  - [x] Start backup
   - [ ] Backup status
-  - [ ] List Backups
+  - [x] List Backups
   - [ ] Remove backups
   - [ ] Send to cloud
   - [ ] Download backup locally
