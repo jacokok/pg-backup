@@ -10,8 +10,8 @@ Backup your pg db from your front end
   - [x] List Backups
   - [x] Remove backups
   - [ ] Send to cloud
-  - [ ] Download backup locally
-- [ ] pgdump or something to make db backup
+  - [x] Download backup locally
+- [x] pgdump or something to make db backup
 - [ ] Upload backups to s3
 - [ ] Run jobs on schedule
 - [x] Run jobs out of process
