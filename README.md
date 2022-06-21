@@ -4,15 +4,15 @@ Backup your pg db from your front end
 
 ## Todo
 
-- [ ] Create Web Api
+- [x] Create Web Api
   - [x] Start backup
-  - [ ] Backup status
+  - [x] Backup status
   - [x] List Backups
   - [x] Remove backups
-  - [ ] Send to cloud
+  - [x] Send to cloud
   - [x] Download backup locally
 - [x] pgdump or something to make db backup
-- [ ] Upload backups to s3
+- [x] Upload backups to s3
 - [ ] Run jobs on schedule
 - [x] Run jobs out of process
 
@@ -38,4 +38,18 @@ pg_restore -h host.containers.internal -U postgres -d bak -v < dump.sql
 ```bash
 echo -en '#!/bin/bash \ndocker run -it -e PGPASSWORD=postgres --rm docker.io/postgres pg_dump $@' | sudo tee -a /usr/bin/pg_dump
 sudo chmod +x /usr/bin/pg_dump
+```
+
+## Secrets and ENV vars
+
+```bash
+PG_AWS__AccessKey
+PG_AWS__SecretKey
+PG_AWS__BucketName
+
+dotnet user-secrets init
+dotnet user-secrets set "AWS:AccessKey" "secret"
+dotnet user-secrets set "AWS:SecretKey" "secret"
+dotnet user-secrets set "AWS:BucketName" "secret"
+dotnet user-secrets list
 ```
