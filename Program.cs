@@ -30,7 +30,7 @@ try
             q.AddJob<BackupJob>(j => j.WithIdentity("Backup").StoreDurably());
             q.AddJob<TestJob>(j => j.WithIdentity("Test").StoreDurably());
 
-            // q.AddTrigger(t => t.StartNow().ForJob("Test"));
+            // q.AddTrigger(t => t.WithIdentity("TestMonthly").StartNow().WithSimpleSchedule(s => s.RepeatForever().WithIntervalInMinutes(1)).ForJob("Backup"));
         });
 
     builder.Services.AddQuartzServer(options =>
