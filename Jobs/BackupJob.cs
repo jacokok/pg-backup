@@ -8,10 +8,10 @@ namespace PGBackup.Jobs;
 [DisallowConcurrentExecution]
 public class BackupJob : IJob
 {
-    private readonly ILogger<TestJob> _logger;
+    private readonly ILogger<BackupJob> _logger;
     private readonly DBConfig _config;
 
-    public BackupJob(ILogger<TestJob> logger, IOptions<DBConfig> config)
+    public BackupJob(ILogger<BackupJob> logger, IOptions<DBConfig> config)
     {
         _logger = logger;
         _config = config.Value;

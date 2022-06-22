@@ -30,7 +30,6 @@ try
             q.UseMicrosoftDependencyInjectionJobFactory();
 
             q.AddJob<BackupJob>(j => j.WithIdentity("Backup").StoreDurably());
-            q.AddJob<TestJob>(j => j.WithIdentity("Test").StoreDurably());
             q.AddJob<UploadJob>(j => j.WithIdentity("Upload").StoreDurably());
 
             q.AddTrigger(t => t.WithIdentity("Backup")
@@ -45,8 +44,6 @@ try
         options.AwaitApplicationStarted = true;
         options.WaitForJobsToComplete = true;
     });
-
-    // builder.Services.AddSingleton<TestJob>();
 
     var app = builder.Build();
 

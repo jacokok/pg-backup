@@ -2,22 +2,54 @@
 
 Backup your pg db from your front end
 
+## Features
+
+- API Backups
+  - List
+  - Download
+  - Create
+  - Delete
+- Cloud Backups
+  - Upload to S3
+  - List
+  - Download
+  - Delete
+- Run Jobs out of process
+- Cron Schedule to run backups
+
 ## Todo
 
-- [x] Create Web Api
-  - [x] Start backup
-  - [x] Backup status
-  - [x] List Backups
-  - [x] Remove backups
-  - [x] Send to cloud
-  - [x] Download backup locally
-- [x] pgdump or something to make db backup
-- [x] Upload backups to s3
-- [x] Run jobs on cron schedule
-- [x] Run jobs out of process
-- [x] List S3 Backups
-- [x] Delete S3 Backup
-- [x] Download S3 Backup
+- [ ] Pack inside container
+- [ ] Upload with CICD to dockerhub
+- [ ] Update readme automagically
+- [ ] Cognito Auth?
+
+## Docker Run
+
+```bash
+docker run command goes here
+```
+
+## Docker Compose
+
+```yaml
+docker-compose: yaml
+  should: go here
+```
+
+## Environment Variables
+
+| Env                   | Description                            |
+| --------------------- | -------------------------------------- |
+| PG_AWS__AccessKey     | AWS Access Key                         |
+| PG_AWS__SecretKey     | AWS Secret Key                         |
+| PG_AWS__BucketName    | AWS Bucket Name                        |
+| PG_Backup__Cron       | Backup cron: Default: "0 30 3 ? * SUN" |
+| PG_DBConfig__Host     | Database host config                   |
+| PG_DBConfig__Port     | Default: 5432                          |
+| PG_DBConfig__Username | Database host                          |
+| PG_DBConfig__Password | Database host                          |
+| PG_DBConfig__Database | Database host                          |
 
 ## Commands
 
@@ -43,14 +75,9 @@ echo -en '#!/bin/bash \ndocker run -it -e PGPASSWORD=postgres --rm docker.io/pos
 sudo chmod +x /usr/bin/pg_dump
 ```
 
-## Secrets and ENV vars
+## Secrets
 
 ```bash
-PG_AWS__AccessKey
-PG_AWS__SecretKey
-PG_AWS__BucketName
-PG_Backup__Cron: "0/2 * * * * ?"
-
 dotnet user-secrets init
 dotnet user-secrets set "AWS:AccessKey" "secret"
 dotnet user-secrets set "AWS:SecretKey" "secret"
