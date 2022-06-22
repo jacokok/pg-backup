@@ -1,4 +1,4 @@
-namespace PGBackup.Features.DeleteBackup;
+namespace PGBackup.Features.Backup.DeleteBackup;
 
 public class DeleteBackup : Endpoint<Request>
 {

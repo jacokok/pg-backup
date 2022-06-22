@@ -1,4 +1,4 @@
-namespace PGBackup.Features.DeleteBackup;
+namespace PGBackup.Features.Backup.DownloadBackup;
 
 public class DownloadBackupEndpoint : Endpoint<Request>
 {

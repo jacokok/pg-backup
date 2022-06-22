@@ -1,12 +1,12 @@
 using Quartz;
 
-namespace PGBackup.Features.CreateBackup;
+namespace PGBackup.Features.Backup.CreateBackup;
 
-public class BackupEndpoint : EndpointWithoutRequest<object>
+public class CreateBackupEndpoint : EndpointWithoutRequest<object>
 {
     private readonly ISchedulerFactory _schedulerFactory;
 
-    public BackupEndpoint(ISchedulerFactory schedulerFactory)
+    public CreateBackupEndpoint(ISchedulerFactory schedulerFactory)
     {
         _schedulerFactory = schedulerFactory;
     }

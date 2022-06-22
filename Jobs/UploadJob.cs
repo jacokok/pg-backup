@@ -1,6 +1,3 @@
-using System.Text;
-using CliWrap;
-using Microsoft.Extensions.Options;
 using PGBackup.Helpers;
 using Quartz;
 
@@ -38,7 +35,7 @@ public class UploadJob : IJob
         {
             _logger.LogInformation("Uploading file to S3");
             using var fs = new FileStream(filePath, FileMode.Open);
-            await _fileUploader.UploadFileAsync(fs, fileName, context.CancellationToken);
+            await _fileUploader.UploadFileAsync(fs, Path.Combine("backup", fileName), context.CancellationToken);
             _logger.LogInformation("Finished uploading to S3");
         }
     }

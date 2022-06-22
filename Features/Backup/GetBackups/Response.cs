@@ -1,4 +1,4 @@
-namespace PGBackup.Features.GetBackups;
+namespace PGBackup.Features.Backup.GetBackups;
 
 public class Response
 {

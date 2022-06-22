@@ -13,8 +13,11 @@ Backup your pg db from your front end
   - [x] Download backup locally
 - [x] pgdump or something to make db backup
 - [x] Upload backups to s3
-- [ ] Run jobs on schedule
+- [x] Run jobs on cron schedule
 - [x] Run jobs out of process
+- [x] List S3 Backups
+- [x] Delete S3 Backup
+- [x] Download S3 Backup
 
 ## Commands
 
@@ -46,6 +49,7 @@ sudo chmod +x /usr/bin/pg_dump
 PG_AWS__AccessKey
 PG_AWS__SecretKey
 PG_AWS__BucketName
+PG_Backup__Cron: "0/2 * * * * ?"
 
 dotnet user-secrets init
 dotnet user-secrets set "AWS:AccessKey" "secret"

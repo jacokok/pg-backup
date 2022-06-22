@@ -1,6 +1,6 @@
 using PGBackup.Helpers;
 
-namespace PGBackup.Features.GetBackups;
+namespace PGBackup.Features.Backup.GetBackups;
 
 public class GetBackups : EndpointWithoutRequest<Response>
 {

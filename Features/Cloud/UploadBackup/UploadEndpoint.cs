@@ -1,7 +1,7 @@
-using PGBackup.Features.DeleteBackup;
+using PGBackup.Features.Backup;
 using Quartz;
 
-namespace PGBackup.Features.UploadBackup;
+namespace PGBackup.Features.Cloud.UploadBackup;
 
 public class UploadEndpoint : Endpoint<Request, object>
 {
@@ -14,7 +14,7 @@ public class UploadEndpoint : Endpoint<Request, object>
 
     public override void Configure()
     {
-        Post("/backup/upload/{FileName}");
+        Post("/cloud/backup/{FileName}");
         AllowAnonymous();
     }
 
