@@ -1,6 +1,6 @@
 # PG Backup
 
-Backup your pg db from your front end
+Backup your postgres database from your front end using this api
 
 ## Features
 
@@ -20,70 +20,64 @@ Backup your pg db from your front end
   - View
   - Delete
 
-## Todo
-
-- [x] Create Dockerfile
-- [ ] Add pgbackup inside container
-- [ ] Upload with CICD to dockerhub
-- [ ] Update readme automagically
-
 ## Docker Run
 
 ```bash
-docker run command goes here
+docker run doink/pg-backup:latest -p 5000:5000 -d -e PG_DBConfig__Database="test"
+
+docker run -p 5000:5000 -e PG_DBConfig__LogsConnectionString="User ID=postgres;Password=postgres;Host=host.containers.internal;Port=5432;Database=logs" -e PG_DBConfig__Host="host.containers.internal" pg-backup 
 ```
 
 ## Docker Compose
 
 ```yaml
-docker-compose: yaml
-  should: go here
+version: "3.7"
+services:
+  pg-backup:
+    image: docker.io/doink/pg-backup:latest
+    hostname: pg-backup
+    container_name: pg-backup
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+      PG_DBConfig__Host: "postgres"
+      PG_DBConfig__Username: "postgres"
+      PG_DBConfig__Password: "postgres"
+      PG_DBConfig__Database: "test"
+      # Cloud config
+      PG_AWS__AccessKey: ""
+      PG_AWS__SecretKey: "",
+      PG_AWS__BucketName: ""
+  postgres:
+    image: docker.io/postgres:14
+    hostname: postgres
+    container_name: postgres
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "test"
+volumes:
+  db_data:
 ```
 
 ## Environment Variables
 
-| Env                   | Description                            |
-| --------------------- | -------------------------------------- |
-| PG_AWS__AccessKey     | AWS Access Key                         |
-| PG_AWS__SecretKey     | AWS Secret Key                         |
-| PG_AWS__BucketName    | AWS Bucket Name                        |
-| PG_Backup__Cron       | Backup cron: Default: "0 30 3 ? * SUN" |
-| PG_DBConfig__Host     | Database host config                   |
-| PG_DBConfig__Port     | Default: 5432                          |
-| PG_DBConfig__Username | Database host                          |
-| PG_DBConfig__Password | Database host                          |
-| PG_DBConfig__Database | Database host                          |
-
-## Commands
-
-```bash
-# run in docker/podman
-docker run -it --rm docker.io/postgres /bin/bash
-# set password env var
-export PGPASSWORD=postgres
-# backup db
-pg_dump -h host.containers.internal -U postgres -Fc -v dbname > dump.sql
-# drop db
-dropdb -h host.containers.internal -U postgres -w bak
-# new db
-createdb -h host.containers.internal -U postgres -w bak
-# restore db
-pg_restore -h host.containers.internal -U postgres -d bak -v < dump.sql
-```
-
-## Alias
-
-```bash
-echo -en '#!/bin/bash \ndocker run -it -e PGPASSWORD=postgres --rm docker.io/postgres pg_dump $@' | sudo tee -a /usr/bin/pg_dump
-sudo chmod +x /usr/bin/pg_dump
-```
-
-## Secrets
-
-```bash
-dotnet user-secrets init
-dotnet user-secrets set "AWS:AccessKey" "secret"
-dotnet user-secrets set "AWS:SecretKey" "secret"
-dotnet user-secrets set "AWS:BucketName" "secret"
-dotnet user-secrets list
-```
+| Env                               | Description                            |
+| --------------------------------- | -------------------------------------- |
+| PG_AWS__AccessKey                 | AWS Access Key                         |
+| PG_AWS__SecretKey                 | AWS Secret Key                         |
+| PG_AWS__BucketName                | AWS Bucket Name                        |
+| PG_Backup__Cron                   | Backup cron: Default: "0 30 3 ? * SUN" |
+| PG_DBConfig__Host                 | Database host config                   |
+| PG_DBConfig__Port                 | Default: 5432                          |
+| PG_DBConfig__Username             | Database host                          |
+| PG_DBConfig__Password             | Database host                          |
+| PG_DBConfig__Database             | Database host                          |
+| PG_DBConfig__LogsConnectionString | Connection string to logs              |
+| PG_DBConfig__LogTable             | Log table name                         |
