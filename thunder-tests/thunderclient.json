@@ -124,5 +124,33 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "3a89eef4-1c97-4748-8f4e-c2c2a77562f0",
+    "colId": "dbbd1a96-f70c-4787-a01c-bcf3045e7eef",
+    "containerId": "",
+    "name": "Logs",
+    "url": "{{url}}/logs",
+    "method": "GET",
+    "sortNum": 80000,
+    "created": "2022-07-01T18:25:52.624Z",
+    "modified": "2022-07-01T18:26:03.843Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "939113a9-663c-4ef2-a47f-43ad41b48d89",
+    "colId": "dbbd1a96-f70c-4787-a01c-bcf3045e7eef",
+    "containerId": "",
+    "name": "DeleteLogs",
+    "url": "{{url}}/logs",
+    "method": "DELETE",
+    "sortNum": 90000,
+    "created": "2022-07-01T18:26:06.922Z",
+    "modified": "2022-07-01T18:26:22.802Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

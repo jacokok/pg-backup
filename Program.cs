@@ -8,7 +8,11 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+DBConfig dBConfig = new();
+builder.Configuration.GetSection("DBConfig").Bind(dBConfig);
+
 Log.Logger = new LoggerConfiguration()
+    .WriteTo.PostgreSQL(dBConfig.LogsConnectionString, dBConfig.LogTable, needAutoCreateTable: true)
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 

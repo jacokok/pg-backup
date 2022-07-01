@@ -16,13 +16,16 @@ Backup your pg db from your front end
   - Delete
 - Run Jobs out of process
 - Cron Schedule to run backups
+- Logs
+  - View
+  - Delete
 
 ## Todo
 
-- [ ] Pack inside container
+- [x] Create Dockerfile
+- [ ] Add pgbackup inside container
 - [ ] Upload with CICD to dockerhub
 - [ ] Update readme automagically
-- [ ] Cognito Auth?
 
 ## Docker Run
 
