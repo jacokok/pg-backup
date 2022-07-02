@@ -24,19 +24,18 @@ try
 {
     Directory.CreateDirectory("backup");
 
-    builder.Services.AddCors(options =>
-      {
-          options.AddPolicy(name: "AllowedOrigins",
-          builder =>
-          {
-              builder.WithOrigins("http://localhost:3000")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials();
-          });
-      });
-
     builder.Services.AddFastEndpoints();
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: "AllowedOrigins",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+    });
     builder.Services.AddSwaggerDoc();
     builder.Services.Configure<DBConfig>(builder.Configuration.GetSection("DBConfig"));
     builder.Configuration.AddEnvironmentVariables(prefix: "PG_");
@@ -66,16 +65,18 @@ try
 
     app.UseSerilogRequestLogging();
     app.UseDefaultExceptionHandler();
-
     app.UseCors("AllowedOrigins");
 
     app.UseFastEndpoints();
+
+
     app.UseOpenApi();
     app.UseSwaggerUi3(s =>
        {
            s.ConfigureDefaults();
            s.Path = string.Empty;
        });
+
     app.Run();
 }
 catch (Exception ex)

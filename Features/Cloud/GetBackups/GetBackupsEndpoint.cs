@@ -3,7 +3,7 @@ using Humanizer;
 
 namespace PGBackup.Features.Cloud.GetBackups;
 
-public class GetBackupsEndpoint : EndpointWithoutRequest<Response>
+public class GetBackupsEndpoint : EndpointWithoutRequest<List<FileDetail>>
 {
     private readonly IAmazonS3 _s3Client;
     private readonly IConfiguration _config;
@@ -23,10 +23,10 @@ public class GetBackupsEndpoint : EndpointWithoutRequest<Response>
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
         var listAll = await _s3Client.ListObjectsAsync(_config["AWS:BucketName"], "backup", cancellationToken);
-        Response response = new();
+        List<FileDetail> response = new();
         foreach (var file in listAll.S3Objects)
         {
-            response.Files.Add(new FileDetail
+            response.Add(new FileDetail
             {
                 Key = file.Key,
                 Name = Path.GetFileName(file.Key),

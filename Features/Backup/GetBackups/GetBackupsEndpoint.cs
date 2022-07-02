@@ -3,7 +3,7 @@ using PGBackup.Helpers;
 
 namespace PGBackup.Features.Backup.GetBackups;
 
-public class GetBackups : EndpointWithoutRequest<Response>
+public class GetBackups : EndpointWithoutRequest<List<FileDetail>>
 {
     private readonly IWebHostEnvironment _host;
 
@@ -21,19 +21,21 @@ public class GetBackups : EndpointWithoutRequest<Response>
     {
         string backupPath = Path.Combine(_host.ContentRootPath, "backup");
         string[] filePaths = Directory.GetFiles(backupPath, "*.dump", SearchOption.TopDirectoryOnly);
-        Response response = new();
+        List<FileDetail> response = new();
         foreach (string file in filePaths)
         {
             long fileSize = FileHelper.GetFileSize(file);
-            response.Files.Add(new FileDetail
+            DateTime? lastModified = FileHelper.GetLastModifiedTime(file);
+            response.Add(new FileDetail
             {
                 Name = Path.GetFileName(file),
                 Path = file,
                 Size = fileSize,
-                NiceSize = fileSize.Bytes().Humanize()
+                NiceSize = fileSize.Bytes().Humanize(),
+                LastModified = lastModified,
+                NiceLastModified = lastModified.Humanize()
             });
         }
-
         await SendAsync(response, cancellation: cancellationToken);
     }
 }

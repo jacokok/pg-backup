@@ -17,4 +17,20 @@ public static class FileHelper
             return 0;
         }
     }
+
+    public static DateTime? GetLastModifiedTime(string path)
+    {
+        try
+        {
+            if (File.Exists(path))
+            {
+                return new FileInfo(path).LastWriteTime;
+            }
+            return null;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
 }

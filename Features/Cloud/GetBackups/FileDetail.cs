@@ -1,10 +1,4 @@
 namespace PGBackup.Features.Cloud.GetBackups;
-
-public class Response
-{
-    public List<FileDetail> Files { get; set; } = new();
-}
-
 public class FileDetail
 {
     public string Name { get; set; } = "";
