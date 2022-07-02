@@ -1,3 +1,4 @@
+using Humanizer;
 using PGBackup.Helpers;
 
 namespace PGBackup.Features.Backup.GetBackups;
@@ -23,11 +24,13 @@ public class GetBackups : EndpointWithoutRequest<Response>
         Response response = new();
         foreach (string file in filePaths)
         {
+            long fileSize = FileHelper.GetFileSize(file);
             response.Files.Add(new FileDetail
             {
                 Name = Path.GetFileName(file),
                 Path = file,
-                Size = FileHelper.GetFileSize(file)
+                Size = fileSize,
+                NiceSize = fileSize.Bytes().Humanize()
             });
         }
 

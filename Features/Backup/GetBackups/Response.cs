@@ -10,4 +10,5 @@ public class FileDetail
     public string Name { get; set; } = "";
     public string Path { get; set; } = "";
     public long Size { get; set; }
+    public string NiceSize { get; set; } = "";
 }

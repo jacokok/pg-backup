@@ -23,6 +23,19 @@ Log.Information("Starting up");
 try
 {
     Directory.CreateDirectory("backup");
+
+    builder.Services.AddCors(options =>
+      {
+          options.AddPolicy(name: "AllowedOrigins",
+          builder =>
+          {
+              builder.WithOrigins("http://localhost:3000")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+          });
+      });
+
     builder.Services.AddFastEndpoints();
     builder.Services.AddSwaggerDoc();
     builder.Services.Configure<DBConfig>(builder.Configuration.GetSection("DBConfig"));
@@ -53,6 +66,8 @@ try
 
     app.UseSerilogRequestLogging();
     app.UseDefaultExceptionHandler();
+
+    app.UseCors("AllowedOrigins");
 
     app.UseFastEndpoints();
     app.UseOpenApi();

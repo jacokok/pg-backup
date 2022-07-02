@@ -1,4 +1,5 @@
 using Amazon.S3;
+using Humanizer;
 
 namespace PGBackup.Features.Cloud.GetBackups;
 
@@ -15,7 +16,7 @@ public class GetBackupsEndpoint : EndpointWithoutRequest<Response>
 
     public override void Configure()
     {
-        Get("/cloud/backups");
+        Get("/cloud/backup");
         AllowAnonymous();
     }
 
@@ -30,8 +31,10 @@ public class GetBackupsEndpoint : EndpointWithoutRequest<Response>
                 Key = file.Key,
                 Name = Path.GetFileName(file.Key),
                 Size = file.Size,
+                NiceSize = file.Size.Bytes().Humanize(),
                 StorageClass = file.StorageClass.Value,
                 LastModified = file.LastModified,
+                NiceLastModified = file.LastModified.Humanize(),
                 BucketName = file.BucketName
             });
         }

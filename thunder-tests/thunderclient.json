@@ -88,11 +88,11 @@
     "colId": "dbbd1a96-f70c-4787-a01c-bcf3045e7eef",
     "containerId": "",
     "name": "Cloud Backups",
-    "url": "{{url}}/cloud/backups",
+    "url": "{{url}}/cloud/backup",
     "method": "GET",
     "sortNum": 60000,
     "created": "2022-06-22T20:42:35.982Z",
-    "modified": "2022-06-22T21:31:51.024Z",
+    "modified": "2022-07-02T19:56:57.009Z",
     "headers": [],
     "params": [],
     "tests": []
