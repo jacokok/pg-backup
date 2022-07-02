@@ -1,5 +1,4 @@
 using Humanizer;
-using PGBackup.Helpers;
 
 namespace PGBackup.Features.Backup.GetBackups;
 
@@ -24,16 +23,15 @@ public class GetBackups : EndpointWithoutRequest<List<FileDetail>>
         List<FileDetail> response = new();
         foreach (string file in filePaths)
         {
-            long fileSize = FileHelper.GetFileSize(file);
-            DateTime? lastModified = FileHelper.GetLastModifiedTime(file);
+            FileInfo fileInfo = new(file);
             response.Add(new FileDetail
             {
-                Name = Path.GetFileName(file),
+                Name = fileInfo.Name,
                 Path = file,
-                Size = fileSize,
-                NiceSize = fileSize.Bytes().Humanize(),
-                LastModified = lastModified,
-                NiceLastModified = lastModified.Humanize()
+                Size = fileInfo.Length,
+                NiceSize = fileInfo.Length.Bytes().Humanize(),
+                LastModified = fileInfo.LastWriteTime,
+                NiceLastModified = fileInfo.LastWriteTime.Humanize()
             });
         }
         await SendAsync(response, cancellation: cancellationToken);

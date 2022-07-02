@@ -27,20 +27,27 @@ public class CreateBackupEndpoint : EndpointWithoutRequest<object>
         }
         var runningJobs = await scheduler.GetCurrentlyExecutingJobs(cancellationToken);
 
-        string result = "running: ";
+        bool isAlreadyRunning = false;
 
         if (runningJobs.Count > 0)
         {
             foreach (var job in runningJobs)
             {
-                result += job.JobDetail.Key;
+                if (job.JobDetail.Key.Name == "Backup")
+                {
+                    isAlreadyRunning = true;
+                }
             }
+        }
+
+        if (isAlreadyRunning)
+        {
+            await SendNotFoundAsync(cancellationToken);
         }
         else
         {
             await scheduler.TriggerJob(new JobKey("Backup"), cancellationToken);
-            result = "started job";
+            await SendNoContentAsync(cancellationToken);
         }
-        await SendStringAsync(result, cancellation: cancellationToken);
     }
 }

@@ -28,14 +28,22 @@ public class UploadEndpoint : Endpoint<Request, object>
         }
         var runningJobs = await scheduler.GetCurrentlyExecutingJobs(cancellationToken);
 
-        string result = "running: ";
+        bool isAlreadyRunning = false;
 
         if (runningJobs.Count > 0)
         {
             foreach (var job in runningJobs)
             {
-                result += job.JobDetail.Key;
+                if (job.JobDetail.Key.Name == "Upload")
+                {
+                    isAlreadyRunning = true;
+                }
             }
+        }
+
+        if (isAlreadyRunning)
+        {
+            await SendNotFoundAsync(cancellationToken);
         }
         else
         {
@@ -43,10 +51,8 @@ public class UploadEndpoint : Endpoint<Request, object>
             {
                 { "fileName", request.FileName }
             };
-
             await scheduler.TriggerJob(new JobKey("Upload"), jobDataMap, cancellationToken);
-            result = "started job";
+            await SendNoContentAsync(cancellationToken);
         }
-        await SendStringAsync(result, cancellation: cancellationToken);
     }
 }
