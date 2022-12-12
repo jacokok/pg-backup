@@ -51,7 +51,7 @@ try
             q.AddTrigger(t => t.WithIdentity("Backup")
                 .StartNow()
                 .ForJob("Backup")
-                .WithCronSchedule(builder.Configuration.GetSection("Backup").GetValue<string>("Cron"))
+                .WithCronSchedule(builder.Configuration.GetSection("Backup").GetValue<string>("Cron") ?? "0 30 3 ? * SUN")
             );
         });
 

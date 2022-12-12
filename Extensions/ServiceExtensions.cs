@@ -10,8 +10,8 @@ public static class ServiceExtensions
 {
     public static void ConfigureAWSS3(this IServiceCollection services, IConfiguration configuration)
     {
-        string accessKey = configuration["AWS:AccessKey"];
-        string secretKey = configuration["AWS:SecretKey"];
+        string accessKey = configuration["AWS:AccessKey"] ?? "";
+        string secretKey = configuration["AWS:SecretKey"] ?? "";
 
         var options = new CredentialProfileOptions
         {
