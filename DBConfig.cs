@@ -7,6 +7,5 @@ public class DBConfig
     public string Password { get; set; } = "postgres";
     public string Username { get; set; } = "postgres";
     public string Database { get; set; } = "postgres";
-    public string LogsConnectionString { get; set; } = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=logs";
-    public string LogTable { get; set; } = "logs";
+    public string LogsConnectionString { get; set; } = "Data Source=logs.sqlite";
 }

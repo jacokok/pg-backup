@@ -1,6 +1,6 @@
 using Dapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
-using Npgsql;
 namespace PGBackup.Features.Logs;
 
 public class DeleteLogs : EndpointWithoutRequest<List<Log>>
@@ -20,8 +20,8 @@ public class DeleteLogs : EndpointWithoutRequest<List<Log>>
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var sql = $"DELETE FROM {_config.LogTable}";
-        using var connection = new NpgsqlConnection(_config.LogsConnectionString);
+        var sql = $"DELETE FROM Logs";
+        using var connection = new SqliteConnection(_config.LogsConnectionString);
         connection.Open();
         var result = await connection.ExecuteAsync(sql);
         if (result > 0)

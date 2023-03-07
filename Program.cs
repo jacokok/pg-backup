@@ -11,12 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 DBConfig dBConfig = new();
 builder.Configuration.GetSection("DBConfig").Bind(dBConfig);
 
+builder.Host.UseSerilog();
+
+var path = Path.GetFullPath("logs.sqlite");
+
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.PostgreSQL(dBConfig.LogsConnectionString, dBConfig.LogTable, needAutoCreateTable: true)
+    .WriteTo.Console()
+    .WriteTo.SQLite(path, "Logs")
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
-
-builder.Host.UseSerilog();
 
 Log.Information("Starting up");
 
@@ -27,10 +30,11 @@ try
     builder.Services.AddFastEndpoints();
     builder.Services.AddCors(options =>
     {
+        string cors = builder.Configuration.GetValue<string>("Cors") ?? "";
         options.AddPolicy(name: "AllowedOrigins",
         builder =>
         {
-            builder.WithOrigins("http://localhost:3000")
+            builder.WithOrigins(cors)
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -68,14 +72,7 @@ try
     app.UseCors("AllowedOrigins");
 
     app.UseFastEndpoints();
-
-
-    app.UseOpenApi();
-    app.UseSwaggerUi3(s =>
-       {
-           s.ConfigureDefaults();
-           s.Path = string.Empty;
-       });
+    app.UseSwaggerGen(_ => { }, c => c.Path = string.Empty);
 
     app.Run();
 }

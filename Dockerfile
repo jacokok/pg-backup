@@ -1,17 +1,12 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine AS base
+FROM docker.io/alpine:3.17 AS base
 WORKDIR /app
 EXPOSE 5000
-
 ENV ASPNETCORE_URLS=http://+:5000
-
-RUN apk --no-cache add postgresql14-client
-
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN apk --no-cache add postgresql15-client aspnetcore7-runtime
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 USER appuser
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
 WORKDIR /src
 COPY ["pg-backup.csproj", "./"]
 RUN dotnet restore "pg-backup.csproj"

@@ -23,7 +23,8 @@ Backup your postgres database from your front end using this api
 ## Docker Run
 
 ```bash
-docker run doink/pg-backup:latest -p 5000:5000 -d -e PG_DBConfig__Database="test"
+docker build . -t doink/pg-backup:latest
+docker run -d -p 5000:5000 -e PG_DBConfig__Database="test" doink/pg-backup:latest 
 
 docker run -p 5000:5000 -e PG_DBConfig__LogsConnectionString="User ID=postgres;Password=postgres;Host=host.containers.internal;Port=5432;Database=logs" -e PG_DBConfig__Host="host.containers.internal" pg-backup 
 ```
@@ -44,7 +45,7 @@ services:
       PG_DBConfig__Host: "postgres"
       PG_DBConfig__Username: "postgres"
       PG_DBConfig__Password: "postgres"
-      PG_DBConfig__Database: "test"
+      PG_DBConfig__Database: "test"      
       # Cloud config
       PG_AWS__AccessKey: ""
       PG_AWS__SecretKey: "",
@@ -81,3 +82,4 @@ volumes:
 | PG_DBConfig__Database             | Database host                          |
 | PG_DBConfig__LogsConnectionString | Connection string to logs              |
 | PG_DBConfig__LogTable             | Log table name                         |
+| PG_Cors                           | https://servername.com                 |

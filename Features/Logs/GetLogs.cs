@@ -1,6 +1,6 @@
 using Dapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
-using Npgsql;
 namespace PGBackup.Features.Logs;
 
 public class GetLogs : EndpointWithoutRequest<List<Log>>
@@ -20,8 +20,8 @@ public class GetLogs : EndpointWithoutRequest<List<Log>>
 
     public override async Task HandleAsync(CancellationToken cancellationToken)
     {
-        var sql = $"SELECT * FROM {_config.LogTable} ORDER BY timestamp DESC fetch first 100 rows only";
-        using var connection = new NpgsqlConnection(_config.LogsConnectionString);
+        var sql = $"SELECT * FROM Logs ORDER BY timestamp DESC";
+        using var connection = new SqliteConnection(_config.LogsConnectionString);
 
         connection.Open();
         var result = await connection.QueryAsync<Log>(sql);
